@@ -69,7 +69,7 @@ namespace Simpletron
             while( instruction != -99999 && index < 100)
             {
                 Console.WriteLine("Instruction =>" + instruction);
-                Console.ReadLine(instruction);
+                instruction = Console.ReadLine();
             }
         }
 
