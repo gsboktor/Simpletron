@@ -1,7 +1,8 @@
 # Simpletron
 Simpletron - RSC
 
-Property of Team George:
+Property of TEAM GEORGE:
+
   George Boktor (President)
   
   Sam Waymire (Vice President)
