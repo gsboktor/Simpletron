@@ -57,19 +57,25 @@ namespace Simpletron
             Console.WriteLine("*** Please enter your program one instruction ***");
             Console.WriteLine("*** (or data word) at a time into the input ***");
             Console.WriteLine("*** text field. I will display the location ***");
-            Console.WriteLine("*** number and a question mar (?). You then ***");
+            Console.WriteLine("*** number and a question mark (?). You then ***");
             Console.WriteLine("*** type the word for that location. Enter ***");
             Console.WriteLine("*** -99999 to stop entering your program ***");
         }
 
         public static void LoadInstructions()
         {
-            Console.Write($"{index:D2}?");
+            Console.Write($"{index:D2}? ");
             int instruction = int.Parse(Console.ReadLine());
             while( instruction != -99999 && index < 100)
             {
-                Console.WriteLine("Instruction =>" + instruction);
+                memory[index] = instruction;
+                index++;
+                Console.Write($"{index:D2}? ");
+                instruction = int.Parse(Console.ReadLine());
             }
+
+            Console.WriteLine("*** Program loading completed ***");
+
         }
 
         public static void Execute()
