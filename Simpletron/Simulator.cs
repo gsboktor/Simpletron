@@ -1,4 +1,13 @@
-﻿using System;
+﻿/* Simpletron by:
+ * Nibraas Khan
+ * George Boktor
+ * Matthew Drescher
+ * Kaleb Askren
+ * Michael Ketzner
+ * Sam Waymire
+ */
+
+using System;
 namespace Simpletron
 {
     public class Simulator
@@ -68,78 +77,100 @@ namespace Simpletron
             int instruction = int.Parse(Console.ReadLine());
             while (instruction != -99999 && index < 100)
             {
-                memory[index] = instruction;
-                index++;
+                if (instruction > -9999 && instruction < 9999)
+                {
+                    memory[index] = instruction;
+                    index++;
+                }
+                else {
+                    Console.Write("Must be in range -9999 to +9999\n");
+                }
                 Console.Write($"{index:D2}? ");
                 instruction = int.Parse(Console.ReadLine());
             }
             Console.WriteLine("*** Program loading completed ***");
+            Console.WriteLine("*** Program execution completed ***");
         }
 
         public static void Execute()
         {
-            while (true)
+            try
             {
-                int instructionRegister = memory[instructionCounter];
-                operationCode = instructionRegister / 100;
-                operand = instructionRegister % 100;
-                switch (operationCode)
+                while (true)
                 {
-                    case 10:
-                        Console.WriteLine("Enter an Integer");
-                        memory[operand] = int.Parse(Console.ReadLine());
-                        break;
-                    case 11:
-                        Console.WriteLine($"Word from location {operand.ToString()}: {memory[operand].ToString()}");
-                        break;
-                    case 20:
-                        accumulator = memory[operand];
-                        break;
-                    case 21:
-                        memory[operand] = accumulator;
-                        break;
-                    case 30:
-                        accumulator += memory[operand];
-                        break;
-                    case 31:
-                        accumulator -= memory[operand];
-                        break;
-                    case 32:
-                        accumulator /= memory[operand];
-                        break;
-                    case 33:
-                        accumulator *= memory[operand];
-                        break;
-                    case 40:
-                        instructionCounter = operand;
-                        instructionCounter--;
-                        break;
-                    case 41:
-                        if (accumulator < 0)
-                        {
+                    int instructionRegister = memory[instructionCounter];
+                    operationCode = instructionRegister / 100;
+                    operand = instructionRegister % 100;
+                    switch (operationCode)
+                    {
+                        case 10:
+                            Console.WriteLine("Enter an Integer");
+                            memory[operand] = int.Parse(Console.ReadLine());
+                            break;
+                        case 11:
+                            Console.WriteLine($"Word from location {operand.ToString()}: {memory[operand].ToString()}");
+                            break;
+                        case 20:
+                            accumulator = memory[operand];
+                            break;
+                        case 21:
+                            memory[operand] = accumulator;
+                            break;
+                        case 30:
+                            accumulator += memory[operand];
+                            break;
+                        case 31:
+                            accumulator -= memory[operand];
+                            break;
+                        case 32:
+                            if (memory[operand] == 0)
+                            {
+                                Console.WriteLine("*** attempt to divide by 0 ***");
+                                Dump();
+                                return;
+                            }
+                            accumulator /= memory[operand];
+                            break;
+                        case 33:
+                            accumulator *= memory[operand];
+                            break;
+                        case 40:
                             instructionCounter = operand;
                             instructionCounter--;
-                        }
-                        break;
-                    case 42:
-                        if (accumulator == 0)
-                        {
-                            instructionCounter = operand;
-                            instructionCounter--;
-                        }
-                        break;
-                    case 43:
-                        Console.WriteLine("*** Simpletron execution terminated ***");
-                        return;
+                            break;
+                        case 41:
+                            if (accumulator < 0)
+                            {
+                                instructionCounter = operand;
+                                instructionCounter--;
+                            }
+                            break;
+                        case 42:
+                            if (accumulator == 0)
+                            {
+                                instructionCounter = operand;
+                                instructionCounter--;
+                            }
+                            break;
+                        case 43:
+                            Console.WriteLine("*** Simpletron execution terminated ***\n");
+                            return;
+                    }
+                    instructionCounter++;
+                    instructionRegister = memory[index];
                 }
-                instructionCounter++;
-                instructionRegister = memory[index];
+            }
+            catch {
+                Console.WriteLine("*** Simpletron execution abnormally terminated ***\n");
+                Dump();
+                return;
             }
         }
 
         public static void Dump()
         {
             string fmt = "0000";
+            Console.WriteLine("REGISTERS");
             if (accumulator >= 0)
             {
                 Console.WriteLine("accumulator \t\t" + "+" + accumulator.ToString(fmt));

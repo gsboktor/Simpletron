@@ -31,5 +31,10 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="sum_of_positive.txt" />
+    <Content Include="average_of_seven.txt" />
+    <Content Include="largest_number.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
